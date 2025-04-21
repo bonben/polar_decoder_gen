@@ -108,11 +108,21 @@ int main(int argc, char** argv)
 
 	arg_vals = ah.parse_arguments(args, cmd_warn, cmd_error);
 
+	int N_punctured = 0;
+
 	try
 	{
 		params_fbg.store(arg_vals);
+
+		N_punctured = params_fbg.N_cw;
+		if (!tools::is_power_of_2(params_fbg.N_cw))
+			params_fbg.N_cw = (int)std::exp2(std::ceil(std::log2(params_fbg.N_cw)));
+
 		params_dec.K    = params_fbg.K;
 		params_dec.N_cw = params_fbg.N_cw;
+		std::cout << "params_dec.N_cw: " << params_dec.N_cw << std::endl;
+
+
 		params_dec.store(arg_vals);
 
 		if (arg_vals.exist({params_dec.get_prefix()+"-path"}))
@@ -183,8 +193,6 @@ int main(int argc, char** argv)
 		                                headers[params_dec.get_prefix()],
 		                                max_n_chars);
 
-	if (!tools::is_power_of_2(params_dec.N_cw))
-		throw std::invalid_argument("'N' has to be a power of 2 ('N' = " + std::to_string(params_dec.N_cw) + ").");
 
 	// ----------------------------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------------- objects allocation
@@ -197,7 +205,10 @@ int main(int argc, char** argv)
 
 	// generate the frozen bits
 	std::vector<bool> frozen_bits(params_dec.N_cw);
-	fb_generator->generate(frozen_bits);
+	if (params_dec.N_cw != N_punctured)
+		fb_generator->generate(frozen_bits, N_punctured);
+	else
+		fb_generator->generate(frozen_bits);
 
 	// work only for SC, SCL, SCAN and systematic encoding...
 	std::string file_name;

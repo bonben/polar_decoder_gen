@@ -48,14 +48,14 @@ void Generator_polar_GPP_SCL_sys
                               std::ostream &stream1,
                               std::ostream &stream2)
 {
-	stream1 << "template <typename B, typename R, class API_polar>"                                       << std::endl;
-	stream1 << "class " << class_name << " : public " << this->mother_class_name << "<B, R, API_polar>"   << std::endl;
+	// stream1 << "template <typename B, typename R, class API_polar>"                                       << std::endl;
+	stream1 << "class " << class_name << " : public " << this->mother_class_name                          << std::endl;
 	stream1 << "{"                                                                                        << std::endl;
 	stream1 << "public:"                                                                                  << std::endl;
-	stream1 << tab << class_name << "(const int& K, const int& N, const int& L, CRC<B>& crc,"
+	stream1 << tab << class_name << "(const int& K, const int& N, const int& L, CRC<int>& crc,"
 	               <<               " const int n_frames = 1)"                                            << std::endl;
-	stream1 << tab << ": Decoder(K, N, n_frames, API_polar::get_n_frames()),"                             << std::endl;
-	stream1 << tab << "  " << this->mother_class_name << "<B, R, API_polar>(K, N, L, " << this->fbits_name
+	// stream1 << tab << ": Decoder(K, N, n_frames, API_polar::get_n_frames()),"                             << std::endl;
+	stream1 << tab << ":  " << this->mother_class_name << "(K, N, L, " << this->fbits_name
 	               << ", crc)"                                                                            << std::endl;
 	stream1 << tab << "{"                                                                                 << std::endl;
 	stream1 << tab << tab << "const std::string name = \"" + class_name + "\";"                           << std::endl;
@@ -69,9 +69,9 @@ void Generator_polar_GPP_SCL_sys
 	stream1 << tab << "}"                                                                                 << std::endl;
 	stream1                                                                                               << std::endl;
 
-	stream2 << tab << "void _decode(const R *Y_N)"                                                        << std::endl;
+	stream2 << tab << "void _decode(const float *Y_N)"                                                        << std::endl;
 	stream2 << tab << "{"                                                                                 << std::endl;
-	stream2 << tab << tab << "using namespace tools;"                                                     << std::endl;
+	// stream2 << tab << tab << "using namespace tools;"                                                     << std::endl;
 	stream2                                                                                               << std::endl;
 	stream2 << tab << tab << "auto  y = Y_N;"                                                             << std::endl;
 	stream2 << tab << tab << "auto &l = this->l;"                                                         << std::endl;

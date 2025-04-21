@@ -38,7 +38,7 @@ public:
 		std::stringstream stream;
 		if (node->get_depth() == 0) // root node
 		{
-			stream << si << "API_polar::template " << this->f() << "<" << this->si_2 << ">("
+			stream << si << this->f() << "<" << this->si_2 << ">("
 			             << "y, "
 			             << "y + " << this->si_2 << ", "
 			             << "l[0].data(), "
@@ -51,7 +51,7 @@ public:
 			       << si << this->tab << "const auto path   = this->paths[i];" << std::endl
 			       << si << this->tab << "const auto parent = l[this->path_2_array    [path][" << this->rev_depth << "   ]].data();" << std::endl
 			       << si << this->tab << "const auto child  = l[this->up_ref_array_idx(path, " << this->rev_depth << " -1)].data();" << std::endl
-			       << si << this->tab << "API_polar::template " << this->f() << "<" << this->si_2 << ">("
+			       << si << this->tab << this->f() << "<" << this->si_2 << ">("
 			                          << "parent + " << str_off_l << ", "
 			                          << "parent + " << str_off_l << " + " << this->si_2 << ", "
 			                          << "child + "  << str_off_l << " + " << this->size << ", "
@@ -74,7 +74,7 @@ public:
 			       << si << "{" << std::endl
 			       << si << this->tab << "const auto path  = this->paths[i];" << std::endl
 			       << si << this->tab << "const auto child = l[this->up_ref_array_idx(path, " << this->rev_depth << " -1)].data();" << std::endl
-			       << si << this->tab << "API_polar::template " << this->g() << "<" << this->si_2 << ">("
+			       << si << this->tab << this->g() << "<" << this->si_2 << ">("
 			                          << "y, "
 			                          << "y + " << this->si_2 << ", "
 			                          << "s[path].data() + " << str_off_s << ", "
@@ -89,7 +89,7 @@ public:
 			       << si << this->tab << "const auto path   = this->paths[i];" << std::endl
 			       << si << this->tab << "const auto parent = l[this->path_2_array    [path][" << this->rev_depth << "   ]].data();" << std::endl
 			       << si << this->tab << "const auto child  = l[this->up_ref_array_idx(path, " << this->rev_depth << " -1)].data();" << std::endl
-			       << si << this->tab << "API_polar::template " << this->g() << "<" << this->si_2 << ">("
+			       << si << this->tab << this->g() << "<" << this->si_2 << ">("
 			                          << "parent + " << str_off_l << ", "
 			                          << "parent + " << str_off_l << " + " << this->si_2 << ", "
 			                          << "s[path].data() + " << str_off_s << ", "
@@ -109,7 +109,7 @@ public:
 		std::stringstream stream;
 		stream << si << "for (auto i = 0; i < this->n_active_paths; i++) " << std::endl
 		       << si << "{" << std::endl
-		       << si << this->tab << "API_polar::template " << this->h() << "<" << this->si_2 << ">("
+		       << si << this->tab << this->h() << "<" << this->si_2 << ">("
 		                          << "s[this->paths[i]], "
 		                          << str_off_s << ", "
 		                          << str_off_s << " + " << this->si_2 << ", "

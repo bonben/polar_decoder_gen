@@ -50,7 +50,6 @@ public:
 		             << str_off_l << ", "
 		             << str_off_s << ");"
 		       << std::endl;
-		stream << si << "normalize_scl_metrics<R>(this->metrics, this->L);" << std::endl;
 
 		return stream.str();
 	}
