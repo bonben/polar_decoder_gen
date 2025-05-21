@@ -56,6 +56,7 @@ int main(int argc, char** argv)
 	// ----------------------------------------------------------------------------------------------------------------
 
 	std::string base_path = ".";
+	std::string input_file_name = "";
 	std::string arch = "GPP";
 	cli::Argument_map_info args;
 
@@ -76,6 +77,10 @@ int main(int argc, char** argv)
 	args.add({params_dec.get_prefix()+"-path"},
 		cli::Folder(cli::openmode::read),
 		"Base path where the decoder will be generated (default = current dir).");
+
+	args.add({params_dec.get_prefix()+"-file-name"},
+		cli::Text(),
+		"File name of the decoder to be generated (default = \"Decoder_polar_\"params).");
 
 	args.add({"arch-type", "a"},
 		cli::Text(cli::Including_set("GPP", "TTA")),
@@ -127,6 +132,8 @@ int main(int argc, char** argv)
 
 		if (arg_vals.exist({params_dec.get_prefix()+"-path"}))
 			base_path = arg_vals.to_folder({params_dec.get_prefix()+"-path"});
+		if (arg_vals.exist({params_dec.get_prefix()+"-file-name"}))
+			input_file_name = arg_vals.at({params_dec.get_prefix()+"-file-name"});
 		if (arg_vals.exist({"arch-type", "a"}))
 			arch = arg_vals.at({"arch-type", "a"});
 
@@ -134,6 +141,7 @@ int main(int argc, char** argv)
 		params_dec.get_headers(headers);
 
 		headers[params_dec.get_prefix()].push_back({"Base path", base_path});
+		headers[params_dec.get_prefix()].push_back({"File name", input_file_name});
 	}
 	catch (const std::exception& e)
 	{
@@ -213,9 +221,12 @@ int main(int argc, char** argv)
 	// work only for SC, SCL, SCAN and systematic encoding...
 	std::string file_name;
 	std::string source_suffix;
-	if (arch == "GPP")
+	if (input_file_name != "")
 	{
-		source_suffix = ".hpp";
+		file_name = input_file_name;
+	}
+	else if (arch == "GPP")
+	{
 		if (params_dec.type == "SCL")
 			file_name  = "Decoder_polar_SCL_fast_CA_sys_N" + std::to_string(params_dec.N_cw) +
 			             "_K" + std::to_string(params_dec.K) +
@@ -227,7 +238,6 @@ int main(int argc, char** argv)
 	}
 	else if (arch == "TTA")
 	{
-		source_suffix = ".cpp";
 		if (params_dec.type == "SC")
 			file_name  = "Decoder_simd_unrolled_N" + std::to_string(params_dec.N_cw) +
 			             "_K"   + std::to_string(params_dec.K);
@@ -235,6 +245,11 @@ int main(int argc, char** argv)
 			file_name  = "Decoder_simd_scan_N" + std::to_string(params_dec.N_cw) +
 			             "_K"   + std::to_string(params_dec.K);
 	}
+
+	if (arch == "GPP")
+		source_suffix = ".hpp";
+	else if (arch == "TTA")
+		source_suffix = ".cpp";
 
 	// open the files
 	std::fstream dec_file, short_dec_file, graph_file, short_graph_file;
