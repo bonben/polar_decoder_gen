@@ -19,7 +19,6 @@ Generator_polar_GPP
                       const int idx_r0,
                       const int idx_r1,
                       std::string mother_class_name,
-                      std::string MOTHER_CLASS_NAME,
                       std::ostream &dec_stream,
                       std::ostream &short_dec_stream,
                       std::ostream &graph_stream,
@@ -33,7 +32,6 @@ Generator_polar_GPP
                   idx_r0,
                   idx_r1,
                   mother_class_name,
-                  MOTHER_CLASS_NAME,
                   dec_stream,
                   short_dec_stream,
                   graph_stream,
@@ -66,9 +64,12 @@ void Generator_polar_GPP
 		if (i < (int)frozen_bits.size()) fbits << std::endl;
 	}
 
-	std::string pragma_name = MOTHER_CLASS_NAME + "_N"   + std::to_string(N) +
-	                          "_K"   + std::to_string(K) +
-	                          "_SNR" + std::to_string((int)(snr*10)) + "_HPP_";
+	// uppercase get_class_name
+
+	std::string pragma_name = this->get_class_name();
+	std::transform(pragma_name.begin(), pragma_name.end(), pragma_name.begin(), ::toupper);
+	pragma_name += "_HPP_";
+
 	stream << "#ifndef " << pragma_name                                 << std::endl;
 	stream << "#define " << pragma_name                                 << std::endl;
 	stream                                                              << std::endl;

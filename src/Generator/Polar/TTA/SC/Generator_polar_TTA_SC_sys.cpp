@@ -28,7 +28,6 @@ Generator_polar_TTA_SC_sys
                       idx_r0,
                       idx_r1,
                       "Decoder_polar_TTA_SC_sys",
-                      "DECODER_POLAR_TTA_SC_SYS",
                       dec_stream,
                       dec_stream,
                       graph_stream,

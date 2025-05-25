@@ -20,7 +20,6 @@ Generator_polar
                   const int idx_r0,
                   const int idx_r1,
                   string mother_class_name,
-                  string MOTHER_CLASS_NAME,
                   ostream &dec_stream,
                   ostream &short_dec_stream,
                   ostream &graph_stream,
@@ -36,7 +35,6 @@ Generator_polar
   pattern_rate1             (*patterns[idx_r1]                    ),
   parser                    (frozen_bits, patterns, idx_r0, idx_r1),
   mother_class_name         (mother_class_name                    ),
-  MOTHER_CLASS_NAME         (MOTHER_CLASS_NAME                    ),
   dec_stream                (dec_stream                           ),
   short_dec_stream          (short_dec_stream                     ),
   graph_stream              (graph_stream                         ),
@@ -50,19 +48,47 @@ Generator_polar
 {
 	for (unsigned i = 0; i < stats.size(); i++)
 		stats[i].resize(patterns.size());
+    class_name = mother_class_name + "_N" + to_string(N) +
+                                    "_K" + to_string(K);
+    fbits_name = mother_class_name + "_fb_" + to_string(N) +
+	                                 "_" + to_string(K);
 }
 
 Generator_polar
 ::~Generator_polar()
 {
+
 }
 
 std::string  Generator_polar
 ::get_class_name()
 {
-	return mother_class_name + "_N" + to_string(N) +
-	                           "_K" + to_string(K) +
-	                         "_SNR" + to_string((int)(snr*10));
+	return this->class_name;
+
+}
+
+void Generator_polar
+::set_class_name(std::string class_name)
+{
+	this->class_name = class_name;
+}
+
+std::string Generator_polar
+::get_mother_class_name()
+{
+    return this->mother_class_name;
+}
+
+void Generator_polar
+::set_fbits_name(std::string fbits_name)
+{
+	this->fbits_name = fbits_name;
+}
+
+std::string Generator_polar
+::get_fbits_name()
+{
+	return this->fbits_name;
 }
 
 void Generator_polar
@@ -75,9 +101,7 @@ void Generator_polar
 
 	string class_name = get_class_name();
 
-	fbits_name = mother_class_name + "_fb_" + to_string(N) +
-	                                    "_" + to_string(K) +
-	                                    "_" + to_string((int)(snr*10));
+	fbits_name = get_fbits_name();
 
 	// decoder generation
 	stringstream dec_common1, dec_common2, dec_common3, dec, short_dec1, short_dec2;

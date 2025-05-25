@@ -23,7 +23,6 @@ public:
 	                    const int idx_r0,
 	                    const int idx_r1,
 	                    std::string mother_class_name,
-	                    std::string MOTHER_CLASS_NAME,
 	                    std::ostream &dec_stream         = std::cout,
 	                    std::ostream &short_dec_stream   = std::cout,
 	                    std::ostream &graph_stream       = std::cout,

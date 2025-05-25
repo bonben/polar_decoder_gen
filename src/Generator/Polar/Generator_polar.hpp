@@ -46,6 +46,8 @@ protected:
 	unsigned n_nodes_before_compression;
 	unsigned n_nodes_after_compression;
 
+	std::string class_name;
+
 	const bool enable_short_decoder;
 
 public:
@@ -57,7 +59,6 @@ public:
 	                const int idx_r0,
 	                const int idx_r1,
 	                std::string mother_class_name,
-	                std::string MOTHER_CLASS_NAME,
 	                std::ostream &dec_stream         = std::cout,
 	                std::ostream &short_dec_stream   = std::cout,
 	                std::ostream &graph_stream       = std::cout,
@@ -68,6 +69,12 @@ public:
 	void generate();
 
 	std::string get_class_name();
+	void set_class_name(std::string class_name);
+
+	std::string get_fbits_name();
+	void set_fbits_name(std::string class_name);
+
+	std::string get_mother_class_name();
 
 	unsigned long get_n_generated_nodes           (                          int graph_depth = -1) const;
 	unsigned long get_n_generated_nodes_by_pattern(std::size_t pattern_hash, int graph_depth = -1) const;

@@ -30,7 +30,6 @@ Generator_polar_GPP_SC_sys
                       idx_r0,
                       idx_r1,
                       "Decoder_polar_SC_fast_sys",
-                      "DECODER_POLAR_SC_FAST_SYS",
                       dec_stream,
                       short_dec_stream,
                       graph_stream,

@@ -56,7 +56,8 @@ int main(int argc, char** argv)
 	// ----------------------------------------------------------------------------------------------------------------
 
 	std::string base_path = ".";
-	std::string input_file_name = "";
+	std::string dec_name = "";
+	std::string fbg_name = "";
 	std::string arch = "GPP";
 	cli::Argument_map_info args;
 
@@ -78,9 +79,13 @@ int main(int argc, char** argv)
 		cli::Folder(cli::openmode::read),
 		"Base path where the decoder will be generated (default = current dir).");
 
-	args.add({params_dec.get_prefix()+"-file-name"},
+	args.add({params_dec.get_prefix()+"-name"},
 		cli::Text(),
 		"File name of the decoder to be generated (default = \"Decoder_polar_\"params).");
+
+	args.add({params_fbg.get_prefix()+"-name"},
+		cli::Text(),
+		"File name of the frozen bits array to be generated");
 
 	args.add({"arch-type", "a"},
 		cli::Text(cli::Including_set("GPP", "TTA")),
@@ -132,8 +137,11 @@ int main(int argc, char** argv)
 
 		if (arg_vals.exist({params_dec.get_prefix()+"-path"}))
 			base_path = arg_vals.to_folder({params_dec.get_prefix()+"-path"});
-		if (arg_vals.exist({params_dec.get_prefix()+"-file-name"}))
-			input_file_name = arg_vals.at({params_dec.get_prefix()+"-file-name"});
+		if (arg_vals.exist({params_dec.get_prefix()+"-name"}))
+			dec_name = arg_vals.at({params_dec.get_prefix()+"-name"});
+		if (arg_vals.exist({params_fbg.get_prefix()+"-name"}))
+			fbg_name = arg_vals.at({params_fbg.get_prefix()+"-name"});
+
 		if (arg_vals.exist({"arch-type", "a"}))
 			arch = arg_vals.at({"arch-type", "a"});
 
@@ -141,7 +149,8 @@ int main(int argc, char** argv)
 		params_dec.get_headers(headers);
 
 		headers[params_dec.get_prefix()].push_back({"Base path", base_path});
-		headers[params_dec.get_prefix()].push_back({"File name", input_file_name});
+		headers[params_fbg.get_prefix()].push_back({"Fbg name", fbg_name});
+		headers[params_dec.get_prefix()].push_back({"Dec name", dec_name});
 	}
 	catch (const std::exception& e)
 	{
@@ -221,20 +230,18 @@ int main(int argc, char** argv)
 	// work only for SC, SCL, SCAN and systematic encoding...
 	std::string file_name;
 	std::string source_suffix;
-	if (input_file_name != "")
+	if (dec_name != "")
 	{
-		file_name = input_file_name;
+		file_name = dec_name;
 	}
 	else if (arch == "GPP")
 	{
 		if (params_dec.type == "SCL")
 			file_name  = "Decoder_polar_SCL_fast_CA_sys_N" + std::to_string(params_dec.N_cw) +
-			             "_K" + std::to_string(params_dec.K) +
-			             "_SNR" + std::to_string((int)(ebn0*10));
+			             "_K" + std::to_string(params_dec.K);
 		else if (params_dec.type == "SC")
 			file_name  = "Decoder_polar_SC_fast_sys_N"   + std::to_string(params_dec.N_cw) +
-			             "_K"   + std::to_string(params_dec.K) +
-			             "_SNR" + std::to_string((int)(ebn0*10));
+			             "_K"   + std::to_string(params_dec.K);
 	}
 	else if (arch == "TTA")
 	{
@@ -344,6 +351,13 @@ int main(int argc, char** argv)
 		else
 			throw std::invalid_argument("Unsupported type of decoder: valid decoder are 'SC' and 'SCAN'.");
 	}
+
+
+	if(dec_name != "")
+	    generator->set_class_name(dec_name);
+
+	if (fbg_name != "")
+	    generator->set_fbits_name(fbg_name);
 
 	// ----------------------------------------------------------------------------------------------------------------
 	// --------------------------------------------------------------------------------------- polar decoder generation
