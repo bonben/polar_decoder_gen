@@ -47,7 +47,7 @@ void Generator_polar_GPP_SCL_sys
                               std::ostream &stream1,
                               std::ostream &stream2)
 {
-	// stream1 << "template <typename B, typename R, class API_polar>"                                       << std::endl;
+	stream1 << "template <class API_polar>"                                                               << std::endl;
 	stream1 << "class " << class_name << " : public " << this->mother_class_name                          << std::endl;
 	stream1 << "{"                                                                                        << std::endl;
 	stream1 << "public:"                                                                                  << std::endl;

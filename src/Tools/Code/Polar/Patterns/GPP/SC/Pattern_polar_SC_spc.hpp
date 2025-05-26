@@ -49,7 +49,7 @@ public:
 		std::string spaces = ""; for (auto i = 0; i < 2*this->n_dig+1; i++) spaces += " ";
 
 		std::stringstream stream;
-		stream << apply_spc  << "<" << std::setw(this->n2_dig) << this->size << ">("
+		stream << "API_polar::template " << apply_spc  << "<" << std::setw(this->n2_dig) << this->size << ">("
 		       << "s, "
 		       << "l, "
 		       << std::setw(this->n_dig ) << str_off_l  << "+" << std::setw(this->n_dig ) << 0          << ", "

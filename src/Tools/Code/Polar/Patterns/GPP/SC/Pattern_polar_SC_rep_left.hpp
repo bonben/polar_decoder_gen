@@ -40,7 +40,7 @@ public:
 		std::string spaces = ""; for (auto i = 0; i < 2*this->n_dig+1; i++) spaces += " ";
 
 		std::stringstream stream;
-		stream << apply_f    << "<" << std::setw(this->n2_dig) << this->si_2 << ">("
+		stream << "API_polar::template " << apply_f    << "<" << std::setw(this->n2_dig) << this->si_2 << ">("
 		       << "   "
 		       << "l, "
 		       << std::setw(this->n_dig ) << str_off_l  << "+" << std::setw(this->n_dig ) << 0          << ", "
@@ -60,7 +60,7 @@ public:
 		auto apply_gr = g() + " ";
 
 		std::stringstream stream;
-		stream << apply_gr   << "<" << std::setw(this->n2_dig) << this->si_2 << ">("
+		stream << "API_polar::template " << apply_gr   << "<" << std::setw(this->n2_dig) << this->si_2 << ">("
 		       << "s, "
 		       << "l, "
 		       << std::setw(this->n_dig ) << str_off_l  << "+" << std::setw(this->n_dig ) << 0          << ", "
@@ -81,7 +81,7 @@ public:
 		std::string spaces = ""; for (auto i = 0; i < 2*this->n_dig+1; i++) spaces += " ";
 
 		std::stringstream stream;
-		stream << apply_xo   << "<" << std::setw(this->n2_dig) << this->si_2 << ">("
+		stream << "API_polar::template " << apply_xo   << "<" << std::setw(this->n2_dig) << this->si_2 << ">("
 		       << "s, "
 		       << "   "
 		       << std::setw(this->n_dig ) << str_off_s  << "+" << std::setw(this->n_dig ) << 0          << ", "
